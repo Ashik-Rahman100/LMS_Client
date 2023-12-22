@@ -26,10 +26,8 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
   }
 
   const handleClose = (e: any) => {
-    if (e.target.id === "screen ") {
-      {
-        setOpenSidebar(false);
-      }
+    if (e.target.id === "screen") {
+      setOpenSidebar(false);
     }
   };
   return (
@@ -76,7 +74,7 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
         {/* mobile sidebar */}
         {openSidebar && (
           <div
-            className="fixed w-full h-screen top-0 left-0 z-[99999] dark:bg-[#00000024]"
+            className="fixed w-full h-screen top-0 left-0 z-[99999] dark:bg-[unset] bg-[#00000024]"
             onClick={handleClose}
             id="screen"
           >

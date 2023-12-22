@@ -16,6 +16,7 @@ const Page: FC<Props> = (props) => {
         keywords="Programming,MERN,Redux,Machine Learning"
       />
       <Header open={open} setOpen={setOpen} activeItem={activeItem} />
+      {/* <Hero /> */}
     </div>
   );
 };
