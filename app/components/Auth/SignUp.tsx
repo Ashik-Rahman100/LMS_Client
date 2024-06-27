@@ -2,7 +2,9 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { FC, useState } from "react";
+import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
+import { FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import {
   AiFillGithub,
   AiOutlineEye,
@@ -26,12 +28,42 @@ const schema = Yup.object().shape({
 const SignUp: FC<Props> = ({ setRoute }) => {
   const [show, setShow] = useState(false);
 
+  const [register, { isLoading, data, isSuccess, error }] =
+    useRegisterMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("data ==>", data);
+      const message = data?.message || "Registration Successfully";
+      toast.success(message);
+      setRoute("Verification");
+    }
+
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        toast.error(errorData.data.message);
+      }
+    }
+
+    // if(isLoading){
+    //   toast.loading("Please wait...");
+    // }
+  }, [isSuccess, error]);
+
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async (email, password) => {
-      console.log(email, password);
-      setRoute("Verification");
+    onSubmit: async ({ name, email, password }) => {
+      const userData = {
+        name,
+        email,
+        password,
+      };
+
+      await register(userData);
+      // console.log(email, password);
+      // setRoute("Verification");
     },
   });
 
